@@ -7,14 +7,19 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
     <h1>Ping Pong</h1>
 
-    <div id="tablero">
-        <canvas id="canvas" width="600" height="400"></canvas>
+    <div id="hud">
+        <div id="score"><span class="label">Score:</span> <span class="value">0</span></div>
+        <div id="score"><span class="label">Score:</span> <span class="value">0</span></div>
     </div>
-
-    <script scr="juego.js"></script>
     
+    <div id="tablero">
+        <canvas id="canvas" width="700" height="400"></canvas>
+    </div>
+    <div id="controls">
+        <button id="miBoton" type="button">Jugar</button>
+    </div>
+    <script src="juego.js"></script>
 </body>
 </html>
