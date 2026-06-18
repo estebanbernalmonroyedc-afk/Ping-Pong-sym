@@ -1,55 +1,61 @@
 let canvas = document.getElementById('canvas')
 let tablero = canvas.getContext('2d')
-let raquetaY = 150
-let pelota = {x: 100, y:200}
+var coordY = (canvas.height-100)/2
+var coordY2 = (canvas.height-100)/2
 tablero.fillStyle = 'white'
-dibujaTablero()
-mueveRaqueta()
-//aca se hace la pelota
-tablero.arc(90, 65, 10, 0, Match.PI * 2)
+tablero.fillRect(25,coordY ,20,100)
+            //  (xinicial,yinicial,ancho,alto)
+
+tablero.fillRect(655,coordY2,20,100)
+
+//aca hacemos el circulo
+tablero.arc(90, 65, 10, 0, Math.PI * 2)
 tablero.fill()
+dibujaLinea()
 
-function dibujaTablero(){
-    dibujarRaqueta()
-    for(i=0;i<=400;i= i+15){
-        tablero.fillRect(347,5,i,5,10)
+
+function dibujaLinea(){
+    for(i=0;i<=400;i= i + 15){
+        tablero.fillRect(347.5,i,5,10)
     }
 }
 
-function mueveRaqueta(){
-    document.addEventListener('keydown', function(tecla){
-        if(tecla.key == 'ArrowUp'){
-            raquetaY = raquetaY - 5
-            dibujarRaqueta()
-            dibujaTablero()
-            dibujaPelota
-        }
+mueveRaqueta()
 
-        if(tecla.key == 'ArrowDown'){
-            raquetaY = raquetaY + 5
-            dibujarRaqueta()
-            dibujaTablero()
-            dibujaPelota()
-        }
-    })
-}
-
-function dibujarRaqueta(){
-    tablero.clearRect(0,0,700,400)//deja en blanco todo
-    if(raquetaY < 0){
-        raquetaY = 0
+function mueveRaqueta (){
+    document.addEventListener('keydown', (tecla) => {
+    if (tecla.key === 'S' || tecla.key === 's'){
+            tablero.clearRect(25, 0, 20,400);
+            coordY += 20
+            tablero.fillRect(25,coordY ,20,100)
     }
-    if(raquetaY > 300){
-        raquetaY = 300
+    if (tecla.key === 'W' || tecla.key === 'w') {
+            tablero.clearRect(25, 0, 20 , 400);
+            coordY -= 20
+            tablero.fillRect(25,coordY ,20,100)
     }
-    tablero.fillRect(25,raquetaY,20,100)//pinta la raqueta
-}
+    if (tecla.key === 'ArrowDown' || tecla.key === 'k') {
+            tablero.clearRect(655, 0, 20 , 400);
+            coordY2 += 20
+            tablero.fillRect(655,coordY2,20,100)
+    }
+    if (tecla.key === 'ArrowUp' || tecla.key === 'i') {
+            tablero.clearRect(655, 0, 20 , 400);
+            coordY2 -= 20
+            tablero.fillRect(655,coordY2,20,100)
+    }
 
-function dibujaPelota(){
-    tablero.clearRect(0,0,700,400)//deja en blanco todo
-    tablero.beginPath()
-    pelota.x = pelota.x + 5
-    pelota.y = pelota.y + 7
-    tablero.arc(pelota.x, pelota.y, 10, 0, Math.PI * 2)
-    tablero.fill()//rellena la pelota
+    if (coordY > 300){
+        coordY = 300
+    }
+    if (coordY < 0){
+        coordY = 0
+    }
+    if (coordY2 > 300){
+        coordY2 = 300
+    }
+    if (coordY2 < 0){
+        coordY2 = 0
+    }
+})
 }
