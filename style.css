@@ -1,0 +1,17 @@
+body{
+    background-color: black;
+    color:white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+    font-family: 'Courier New';
+    overflow: hidden;
+}
+
+#tablero{
+    border: 3px solid rgb(255, 255, 255);
+    width: 700px;
+    height: 400px;
+}
