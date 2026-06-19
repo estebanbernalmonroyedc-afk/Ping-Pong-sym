@@ -52,11 +52,19 @@ function dibujaPelota(){
     tablero.beginPath()
     pelota.x = pelota.x + pelota.velx
      pelota.y = pelota.y + pelota.vely
+     // colision con la raqueta
+    if(pelota.x - 10 <= 45 &&
+        pelota.x + 10 >= 25 &&
+        pelota.y >= raquetaY &&
+        pelota.y <= raquetaY + 100
+    ){
+        pelota.velx = pelota.velx * -1
+    }
     //pared abajo
     if(pelota.y >= 396 || pelota.y <= 17 ){
             pelota.vely = pelota.vely * -1
     }
-if(pelota.x >= 698 || pelota.x <= 10 ){
+    if(pelota.x >= 698 || pelota.x <= 10 ){
             // pelota.velx = pelota.velx + 2 * -1
             pelota.velx = pelota.velx * -1
     }
