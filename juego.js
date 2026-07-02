@@ -10,20 +10,27 @@ let bajar = false
 let subir2 = false
 let bajar2 = false
 
-let pelota = { x:65 , y:300, velx:5, vely:5 }
+let pelota = { x:350 , y:200, velx:5, vely:5 }
 
-// NUEVO: Variables del marcador
+// Marcador
 let puntosJugador1 = 0
 let puntosJugador2 = 0
 
-// NUEVO: Referencias al HTML
 let marcador1 = document.getElementById('puntos1')
 let marcador2 = document.getElementById('puntos2')
+
+// Control del juego
+let pausa = false
+let jugando = false
+
+let boton = document.getElementById("miBoton")
 
 tablero.fillStyle = 'white'
 
 mueveRaqueta()
 dibujarTablero()
+
+boton.addEventListener("click", iniciarJuego)
 
 function dibujarTablero(){
 
@@ -51,7 +58,13 @@ function dibujarTablero(){
         tablero.fillRect(347.5,i,5,10)
     }
 
-    dibujaPelota()
+    if(jugando && !pausa){
+        dibujaPelota()
+    }else{
+        tablero.beginPath()
+        tablero.arc(pelota.x,pelota.y,10,0,Math.PI*2)
+        tablero.fill()
+    }
 
     requestAnimationFrame(dibujarTablero)
 }
@@ -60,7 +73,6 @@ function mueveRaqueta(){
 
     document.addEventListener('keydown', function(tecla){
 
-        // Jugador izquierdo
         if(tecla.key == 'w' || tecla.key == 'W'){
             subir = true
         }
@@ -69,7 +81,6 @@ function mueveRaqueta(){
             bajar = true
         }
 
-        // Jugador derecho
         if(tecla.key == 'ArrowUp'){
             subir2 = true
         }
@@ -82,7 +93,6 @@ function mueveRaqueta(){
 
     document.addEventListener('keyup', function(tecla){
 
-        // Jugador izquierdo
         if(tecla.key == 'w' || tecla.key == 'W'){
             subir = false
         }
@@ -91,7 +101,6 @@ function mueveRaqueta(){
             bajar = false
         }
 
-        // Jugador derecho
         if(tecla.key == 'ArrowUp'){
             subir2 = false
         }
@@ -108,7 +117,6 @@ function dibujarRaqueta(){
 
     tablero.clearRect(0,0,700,400)
 
-    // Límites jugador izquierdo
     if(raquetaY < 0){
         raquetaY = 0
     }
@@ -117,7 +125,6 @@ function dibujarRaqueta(){
         raquetaY = 300
     }
 
-    // Límites jugador derecho
     if(raqueta2Y < 0){
         raqueta2Y = 0
     }
@@ -126,22 +133,65 @@ function dibujarRaqueta(){
         raqueta2Y = 300
     }
 
-    // Raqueta izquierda
     tablero.fillRect(25,raquetaY,20,100)
 
-    // Raqueta derecha
     tablero.fillRect(655,raqueta2Y,20,100)
 
 }
 
-// NUEVA FUNCIÓN
-function reiniciarPelota(){
+function iniciarJuego(){
+
+    puntosJugador1 = 0
+    puntosJugador2 = 0
+
+    marcador1.textContent = puntosJugador1
+    marcador2.textContent = puntosJugador2
 
     pelota.x = 350
     pelota.y = 200
 
-    // Hace que salga hacia el jugador que perdió el punto
-    pelota.velx = pelota.velx * -1
+    // Dirección inicial aleatoria
+    if(Math.random() < 0.5){
+        pelota.velx = 5
+    }else{
+        pelota.velx = -5
+    }
+
+    if(Math.random() < 0.5){
+        pelota.vely = 5
+    }else{
+        pelota.vely = -5
+    }
+
+    jugando = true
+    pausa = false
+
+}
+
+function reiniciarPelota(){
+
+    pausa = true
+
+    pelota.x = 350
+    pelota.y = 200
+
+    if(Math.random() < 0.5){
+        pelota.velx = 5
+    }else{
+        pelota.velx = -5
+    }
+
+    if(Math.random() < 0.5){
+        pelota.vely = 5
+    }else{
+        pelota.vely = -5
+    }
+
+    setTimeout(function(){
+
+        pausa = false
+
+    },1000)
 
 }
 
@@ -179,23 +229,41 @@ function dibujaPelota(){
         pelota.vely = pelota.vely * -1
     }
 
-    // NUEVO: Punto para el jugador izquierdo
+    // Punto jugador 1
     if(pelota.x >= 700){
 
         puntosJugador1++
         marcador1.textContent = puntosJugador1
 
-        reiniciarPelota()
+        if(puntosJugador1 == 7){
+
+            jugando = false
+            alert("¡Jugador 1 ha ganado!")
+
+        }else{
+
+            reiniciarPelota()
+
+        }
 
     }
 
-    // NUEVO: Punto para el jugador derecho
+    // Punto jugador 2
     if(pelota.x <= 0){
 
         puntosJugador2++
         marcador2.textContent = puntosJugador2
 
-        reiniciarPelota()
+        if(puntosJugador2 == 7){
+
+            jugando = false
+            alert("¡Jugador 2 ha ganado!")
+
+        }else{
+
+            reiniciarPelota()
+
+        }
 
     }
 
