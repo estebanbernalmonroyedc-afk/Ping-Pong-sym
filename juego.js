@@ -137,10 +137,22 @@ function dibujaPelota(){
     if(
         pelota.x - 10 <= 45 &&
         pelota.x + 10 >= 25 &&
-        pelota.y >= raquetaY &&
-        pelota.y <= raquetaY + 100
+        pelota.y + 10 >= raquetaY &&
+        pelota.y - 10 <= raquetaY + 100
     ){
         pelota.velx = pelota.velx * -1
+        pelota.x = 55
+    }
+
+    // Colisión con la raqueta derecha
+    if(
+        pelota.x + 10 >= 655 &&
+        pelota.x - 10 <= 675 &&
+        pelota.y + 10 >= raqueta2Y &&
+        pelota.y - 10 <= raqueta2Y + 100
+    ){
+        pelota.velx = pelota.velx * -1
+        pelota.x = 645
     }
 
     // Rebote arriba y abajo
@@ -153,7 +165,7 @@ function dibujaPelota(){
         pelota.velx = pelota.velx * -1
     }
 
-    tablero.arc(pelota.x,pelota.y,10,0,Math.PI*2)
+    tablero.arc(pelota.x,pelota.y,10,0,Math.PI * 2)
     tablero.fill()
 
 }
