@@ -12,6 +12,14 @@ let bajar2 = false
 
 let pelota = { x:65 , y:300, velx:5, vely:5 }
 
+// NUEVO: Variables del marcador
+let puntosJugador1 = 0
+let puntosJugador2 = 0
+
+// NUEVO: Referencias al HTML
+let marcador1 = document.getElementById('puntos1')
+let marcador2 = document.getElementById('puntos2')
+
 tablero.fillStyle = 'white'
 
 mueveRaqueta()
@@ -126,6 +134,17 @@ function dibujarRaqueta(){
 
 }
 
+// NUEVA FUNCIÓN
+function reiniciarPelota(){
+
+    pelota.x = 350
+    pelota.y = 200
+
+    // Hace que salga hacia el jugador que perdió el punto
+    pelota.velx = pelota.velx * -1
+
+}
+
 function dibujaPelota(){
 
     tablero.beginPath()
@@ -160,9 +179,24 @@ function dibujaPelota(){
         pelota.vely = pelota.vely * -1
     }
 
-    // Rebote izquierda y derecha
-    if(pelota.x >= 698 || pelota.x <= 10){
-        pelota.velx = pelota.velx * -1
+    // NUEVO: Punto para el jugador izquierdo
+    if(pelota.x >= 700){
+
+        puntosJugador1++
+        marcador1.textContent = puntosJugador1
+
+        reiniciarPelota()
+
+    }
+
+    // NUEVO: Punto para el jugador derecho
+    if(pelota.x <= 0){
+
+        puntosJugador2++
+        marcador2.textContent = puntosJugador2
+
+        reiniciarPelota()
+
     }
 
     tablero.arc(pelota.x,pelota.y,10,0,Math.PI * 2)
