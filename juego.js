@@ -2,10 +2,13 @@ let canvas = document.getElementById('canvas')
 let tablero = canvas.getContext('2d')
 
 let raquetaY = 150
+let raqueta2Y = 150
 
-// Nuevas variables para mover las raquetas
 let subir = false
 let bajar = false
+
+let subir2 = false
+let bajar2 = false
 
 let pelota = { x:65 , y:300, velx:5, vely:5 }
 
@@ -16,13 +19,22 @@ dibujarTablero()
 
 function dibujarTablero(){
 
-    // Movimiento continuo de la raqueta
+    // Movimiento jugador izquierdo
     if(subir){
         raquetaY = raquetaY - 5
     }
 
     if(bajar){
         raquetaY = raquetaY + 5
+    }
+
+    // Movimiento jugador derecho
+    if(subir2){
+        raqueta2Y = raqueta2Y - 5
+    }
+
+    if(bajar2){
+        raqueta2Y = raqueta2Y + 5
     }
 
     dibujarRaqueta()
@@ -40,24 +52,44 @@ function mueveRaqueta(){
 
     document.addEventListener('keydown', function(tecla){
 
-        if(tecla.key == 'ArrowUp'){
+        // Jugador izquierdo
+        if(tecla.key == 'w' || tecla.key == 'W'){
             subir = true
         }
 
-        if(tecla.key == 'ArrowDown'){
+        if(tecla.key == 's' || tecla.key == 'S'){
             bajar = true
+        }
+
+        // Jugador derecho
+        if(tecla.key == 'ArrowUp'){
+            subir2 = true
+        }
+
+        if(tecla.key == 'ArrowDown'){
+            bajar2 = true
         }
 
     })
 
     document.addEventListener('keyup', function(tecla){
 
-        if(tecla.key == 'ArrowUp'){
+        // Jugador izquierdo
+        if(tecla.key == 'w' || tecla.key == 'W'){
             subir = false
         }
 
-        if(tecla.key == 'ArrowDown'){
+        if(tecla.key == 's' || tecla.key == 'S'){
             bajar = false
+        }
+
+        // Jugador derecho
+        if(tecla.key == 'ArrowUp'){
+            subir2 = false
+        }
+
+        if(tecla.key == 'ArrowDown'){
+            bajar2 = false
         }
 
     })
@@ -68,6 +100,7 @@ function dibujarRaqueta(){
 
     tablero.clearRect(0,0,700,400)
 
+    // Límites jugador izquierdo
     if(raquetaY < 0){
         raquetaY = 0
     }
@@ -76,7 +109,20 @@ function dibujarRaqueta(){
         raquetaY = 300
     }
 
+    // Límites jugador derecho
+    if(raqueta2Y < 0){
+        raqueta2Y = 0
+    }
+
+    if(raqueta2Y > 300){
+        raqueta2Y = 300
+    }
+
+    // Raqueta izquierda
     tablero.fillRect(25,raquetaY,20,100)
+
+    // Raqueta derecha
+    tablero.fillRect(655,raqueta2Y,20,100)
 
 }
 
@@ -87,7 +133,7 @@ function dibujaPelota(){
     pelota.x = pelota.x + pelota.velx
     pelota.y = pelota.y + pelota.vely
 
-    // Colisión con la raqueta
+    // Colisión con la raqueta izquierda
     if(
         pelota.x - 10 <= 45 &&
         pelota.x + 10 >= 25 &&
